@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BethhanysPieShopsIM
+namespace BethhanysPieShopsIM.Domain.Enumerables
 {
-    public enum UnitType
+    enum ICurrency
     {
-        PerItem,
-        PerBox,
-        PerKg
+        Dollar,
+        Euro,
+        Pound,
+        Real
     }
 }
