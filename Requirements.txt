@@ -1,0 +1,4 @@
+Work with Products
+Products exist in diferent unit types
+Create Orders to increase stock of one or more Products
+Products can have a Price in diferent Currencies
