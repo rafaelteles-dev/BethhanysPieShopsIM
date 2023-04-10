@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BethhanysPieShopsIM.Domain.Enumerables
+namespace BethhanysPieShopsIM.Domain.General
 {
-    enum ICurrency
+    public enum Currency
     {
         Dollar,
         Euro,

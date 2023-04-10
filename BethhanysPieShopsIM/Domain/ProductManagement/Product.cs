@@ -1,12 +1,13 @@
-﻿using System;
+﻿using BethhanysPieShopsIM.Domain.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BethhanysPieShopsIM.Domain.Productmanagement
+namespace BethhanysPieShopsIM.Domain.ProductManagement
 {
-    internal class Product
+    public partial class Product
     {
         private int id;
         private string name = string.Empty;
@@ -28,11 +29,12 @@ namespace BethhanysPieShopsIM.Domain.Productmanagement
             Id = id;
             Name = name;
         }
-        public Product(int id, string name, string? description, UnitType unitType, int maxAmountInStock)
+        public Product(int id, string name, string? description,Price price, UnitType unitType, int maxAmountInStock)
         {
             Id = id;
             Name = name;
             Description = description;
+            Price = price;
             UnitType = unitType;
             maxItemInStock = maxAmountInStock;
 
@@ -66,16 +68,25 @@ namespace BethhanysPieShopsIM.Domain.Productmanagement
         public UnitType UnitType { get; set; }
         public int AmountInStock { get; private set; }
         public bool IsBelowStockTreshold { get; private set; }
+        public Price Price { get; set; }
 
-        public void UseProduct()
+        public void UseProduct(int items)
         {
-            //Use, take from stock then update and check if low in stock
+            if (items <= AmountInStock)
+            {
+                //use the items
+                AmountInStock -= items;
+
+                UpdateLowStock();
+
+                Log($"Amount in stock updated. Now {AmountInStock} items in stock.");
+            }
+            else
+            {
+                Log($"Not enough items on stock for {CreateSimpleProductRepresentation()}. {AmountInStock} available but {items} requested.");
+            }
         }
 
-        private void UpdateLowStock()
-        {
-            throw new NotImplementedException();
-        }
         public void IncreaseStock()
         {
             AmountInStock++;
@@ -95,20 +106,19 @@ namespace BethhanysPieShopsIM.Domain.Productmanagement
                 IsBelowStockTreshold = false;
         }
 
-        private void Log(string text)
-        {
-            Console.WriteLine(text); ;
-        }
-
-        public void CreateSimpleProductRepresentation() { }
 
         public void AddNewProductToInventory() { }
 
         public void AlertIfLowOnStock() { }
+        public void UpdateLowStock()
+        {
+            if (AmountInStock < StockThreshold)
+                IsBelowStockTreshold = true;
+        }
 
         public string DisplayDetailsShort() 
         {
-            return $"{Id} {Name} \n{Description} \n{AmountInStock} item(s) in stock";
+            return $"{Id} {Name} \n{Description} \n{Price.ToString} \n{AmountInStock} item(s) in stock";
         }
 
         public string DisplayDetailsFull()
@@ -118,7 +128,7 @@ namespace BethhanysPieShopsIM.Domain.Productmanagement
         public string DisplayDetailsFull(string extraDetails)
         {
             StringBuilder sb = new();
-            sb.Append($"{Id} {Name} \n{Description} \n{AmountInStock} item(s) in stock\n");
+            sb.Append($"{Id} {Name} \n{Description} \n{Price.ToString} \n{AmountInStock} item(s) in stock\n");
 
             sb.Append(extraDetails);
 

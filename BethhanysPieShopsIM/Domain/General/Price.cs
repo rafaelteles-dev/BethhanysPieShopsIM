@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace BethhanysPieShopsIM.Domain.General
 {
-    internal class Price
+    public class Price
     {
-        string currency;
-        int itemPrice;
+        public Currency Currency { get; set; }
+        public double ItemPrice { get; set; }
 
-        public void ItemCurrency() { }
-
+        public override string ToString()
+        {
+            return $"{ItemPrice} {Currency}";
+        }
     }
 }
